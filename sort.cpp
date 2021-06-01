@@ -33,6 +33,9 @@ int* partition(int* left, int* right)
 
 	} while (left < right);
 
+	//If array is already sorted, pivot variable is still same with current Pivot 
+	//Then Advantage of Divide and conquer disappear -> Worst case : O(n^2)
+
 	swap(pivot, right);
 	return right;
 }
@@ -92,14 +95,22 @@ void bubbleSort(int* begin, int* end)
 	int* back = end - 1;
 	while (current < back)
 	{
+		bool isSwapped = false;
 		while (current < back)
 		{
 			if (*current > *(current + 1))
 			{
 				swap(current, current + 1);
+				isSwapped = true;
 			}
 			current++;
 		}
+
+		if (isSwapped == false)
+		{//Best Case
+			return;
+		}
+
 		current = begin;
 		back--;
 	}
@@ -115,7 +126,7 @@ int main()
 		a[i] = rand();
 	}
 
-	bubbleSort(a, a + 100);
+	quickSort(a, a + 100);
 
 	for (size_t i = 0; i < 100; i++)
 	{
