@@ -16,7 +16,15 @@ unsigned int EdgeCost[NODE_COUNT][NODE_COUNT]
 	UINT_MAX, UINT_MAX, 5, UINT_MAX, 2, 0
 };
 
-
+unsigned int HeuristicToLastNode[NODE_COUNT][NODE_COUNT]
+{
+	0, 2, 5, 1, UINT_MAX, UINT_MAX,
+	2, 0, 3, 2, UINT_MAX, UINT_MAX,
+	5, 3, 0, 3, 1, 5,
+	1, 2, 3, 0, 1, UINT_MAX,
+	UINT_MAX, UINT_MAX, 1, 1, 0, 2,
+	UINT_MAX, UINT_MAX, 5, UINT_MAX, 2, 0
+};
 
 void Dijkstra(const unsigned int* const edgeCost, const size_t nodeCount, const size_t startIndex, unsigned int* resultDistance)
 {
@@ -31,8 +39,6 @@ void Dijkstra(const unsigned int* const edgeCost, const size_t nodeCount, const 
 	{
 		isVisted[nextNode] = true;
 
-		int minCost = UINT_MAX;
-		size_t minIndex = -1;
 		for (size_t i = 0; i < nodeCount; i++)
 		{
 			if (i == nextNode)
@@ -44,7 +50,14 @@ void Dijkstra(const unsigned int* const edgeCost, const size_t nodeCount, const 
 			{
 				resultDistance[i] = resultDistance[nextNode] + edgeCost[nextNode * nodeCount + i];
 			}
-			if (isVisted[i] == false && edgeCost[nextNode * nodeCount + i] < minCost)
+			
+		}
+
+		int minCost = UINT_MAX;
+		size_t minIndex = -1;
+		for (size_t i = 0; i < nodeCount; i++)
+		{
+			if (isVisted[i] == false && resultDistance[i] < minCost)
 			{
 				minIndex = i;
 			}
